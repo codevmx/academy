@@ -371,6 +371,24 @@
     border-radius:5px;
   }
 
+  .level-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:16px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    color:var(--accent);
+    text-decoration:none;
+    border:1px solid var(--accent);
+    padding:8px 16px;
+    border-radius:100px;
+    transition:opacity 0.15s ease;
+  }
+  .level-btn:hover{ opacity:0.8; }
+  .level-btn svg{ flex-shrink:0; }
+
   .lvl-basico{ --accent:var(--green); }
   .lvl-intermedio{ --accent:var(--amber); }
   .lvl-avanzado{ --accent:var(--rose); }
@@ -701,6 +719,7 @@
             <span class="chip">Seguridad digital</span>
             <span class="chip">Herramientas de productividad</span>
           </div>
+          <a class="level-btn" href="nivel-basico.html">Ver temario completo<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
 
@@ -731,6 +750,10 @@
             <span class="chip">Programación</span>
             <span class="chip">Desarrollo web</span>
           </div>
+          <a class="level-btn" href="nivel-intermedio.html">
+            Ver temario completo
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
 
@@ -761,6 +784,10 @@
             <span class="chip">Proyectos tecnológicos</span>
             <span class="chip">Emprendimiento</span>
           </div>
+          <a class="level-btn" href="nivel-avanzado.html">
+            Ver temario completo
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
     </section>

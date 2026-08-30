@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Temario — Nivel Avanzado | Exploradores Digitales</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#050506;
+    --bg-panel:#0d0d10;
+    --purple:#a78bfa;
+    --purple-deep:#7c3aed;
+    --lavender:#d6cbfb;
+    --white:#f7f6fb;
+    --dim:#9d9aa8;
+    --green:#5fd68f;
+    --amber:#f4c05b;
+    --rose:#f4708a;
+    --line:rgba(247,246,251,0.12);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    background:#1a1a1d;
+  }
+
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--white);
+    display:flex;
+    justify-content:center;
+    padding:40px 16px;
+  }
+
+  .sheet{
+    width:794px;
+    background:var(--bg);
+    position:relative;
+    overflow:hidden;
+    border-radius:6px;
+    box-shadow:0 40px 80px rgba(0,0,0,0.6);
+  }
+
+  .sheet::before{
+    content:"";
+    position:absolute;
+    top:-220px; left:50%;
+    transform:translateX(-50%);
+    width:900px; height:520px;
+    background:radial-gradient(circle, rgba(244,112,138,0.16) 0%, rgba(244,112,138,0) 68%);
+    pointer-events:none;
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:50px 60px 30px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .logo-mark{ width:96px; margin:0 auto 22px; display:block; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.28em;
+    color:var(--rose);
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .eyebrow .brace{ color:var(--lavender); }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:42px;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    color:var(--white);
+  }
+  h1 span{ color:var(--rose); }
+  .hero-sub{
+    margin-top:12px;
+    font-size:14.5px;
+    color:var(--dim);
+    max-width:480px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.55;
+  }
+  .hero-stats{
+    margin-top:26px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .hero-stats span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--lavender);
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:100px;
+    background:rgba(244,112,138,0.06);
+  }
+
+  /* ---------- LEVELS ---------- */
+  .levels{
+    position:relative;
+    padding:34px 60px 10px;
+  }
+
+  .levels-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--white);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .levels-title::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  .level{
+    position:relative;
+    display:grid;
+    grid-template-columns:74px 1fr;
+    gap:20px;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .level:last-child{ border-bottom:none; padding-bottom:6px; }
+
+  .level-index{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+  }
+  .level-index .num{
+    display:block;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:30px;
+    font-weight:700;
+    color:var(--accent);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .level-index .dot{
+    display:inline-block;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--accent);
+    margin-right:6px;
+  }
+
+  .level-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .level-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:21px;
+    font-weight:700;
+    color:var(--white);
+  }
+  .level-verb{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--accent);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border:1px solid var(--accent);
+    padding:3px 9px;
+    border-radius:100px;
+  }
+  .level-desc{
+    font-size:13px;
+    color:var(--dim);
+    margin-bottom:12px;
+    line-height:1.5;
+  }
+
+  .level-meta{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-bottom:13px;
+  }
+  .level-meta div{
+    font-size:11.5px;
+    color:var(--dim);
+  }
+  .level-meta b{
+    display:block;
+    color:var(--white);
+    font-size:13px;
+    font-weight:600;
+    font-family:'Space Grotesk', sans-serif;
+  }
+
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .chip{
+    font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+    color:var(--white);
+    background:rgba(255,255,255,0.045);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:5px;
+  }
+
+  .level-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:16px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    color:var(--accent);
+    text-decoration:none;
+    border:1px solid var(--accent);
+    padding:8px 16px;
+    border-radius:100px;
+    transition:opacity 0.15s ease;
+  }
+  .level-btn:hover{ opacity:0.8; }
+  .level-btn svg{ flex-shrink:0; }
+
+  .lvl-basico{ --accent:var(--green); }
+  .lvl-intermedio{ --accent:var(--amber); }
+  .lvl-avanzado{ --accent:var(--rose); }
+
+
+  /* ---------- MODULES ---------- */
+  .modules{
+    position:relative;
+    padding:20px 60px 10px;
+  }
+
+  .module{
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .module:last-child{ border-bottom:none; padding-bottom:44px; }
+
+  .module-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .module-index .mnum{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:var(--rose);
+    border:1px solid var(--rose);
+    width:30px; height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .module-title-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+  }
+  .module-icon{ font-size:18px; }
+  .module-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:19px;
+    color:var(--white);
+  }
+  .module-count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.04em;
+    color:var(--dim);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:100px;
+    white-space:nowrap;
+  }
+
+  .topics-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2px 20px;
+    padding-left:44px;
+  }
+  .topic{
+    display:flex;
+    align-items:baseline;
+    gap:9px;
+    padding:6px 0;
+    font-size:12.5px;
+    color:var(--dim);
+    line-height:1.4;
+    border-bottom:1px dashed rgba(247,246,251,0.06);
+  }
+  .topic-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--rose);
+    flex-shrink:0;
+    min-width:14px;
+  }
+  .topic-text{ color:var(--white); }
+
+  /* ---------- FOOTER ---------- */
+  .footer-bar{
+    border-top:1px solid var(--line);
+    padding:18px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .footer-bar span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    color:var(--dim);
+    letter-spacing:0.05em;
+  }
+
+  @media (max-width:820px){
+    .sheet{ width:100%; }
+    .hero, .modules, .footer-bar{ padding-left:24px; padding-right:24px; }
+    h1{ font-size:32px; }
+    .topics-grid{ grid-template-columns:1fr; padding-left:0; margin-top:4px; }
+    .module-head{ flex-wrap:wrap; }
+  }
+
+  @media print{
+    body{ padding:0; background:var(--bg); }
+    .sheet{ box-shadow:none; border-radius:0; width:100%; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="eyebrow"><span class="brace">{</span> temario · nivel avanzado <span class="brace">}</span></div>
+      <h1>Crear<span> · </span><span>Avanzado</span></h1>
+      <p class="hero-sub">El nivel más alto de Exploradores Digitales: diseñar y desarrollar soluciones tecnológicas propias.</p>
+      <div class="hero-stats">
+        <span>7 MÓDULOS</span>
+        <span>78 TEMAS</span>
+        <span>12 SEMANAS</span>
+        <span>34 HORAS</span>
+      </div>
+      <div class="level lvl-avanzado">
+            <div><a class="level-btn" href="index.html">Regresar</a></div>    
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="modules">
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">01</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">💻</div>
+            <div class="module-name">Programación</div>
+          </div>
+          <div class="module-count">12 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">Fundamentos de programación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Variables y estructuras de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">Condicionales.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Ciclos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Funciones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">Programación modular.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Manejo de errores.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Estructuras de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Programación orientada a objetos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Buenas prácticas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">11</span>
+          <span class="topic-text">Control de versiones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">12</span>
+          <span class="topic-text">Desarrollo de proyectos.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">02</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">🌐</div>
+            <div class="module-name">Desarrollo web</div>
+          </div>
+          <div class="module-count">12 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">HTML avanzado.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">CSS avanzado.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">JavaScript.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Diseño responsivo.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Interfaces de usuario.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">Formularios.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Consumo de APIs.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Backend.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Bases de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Autenticación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">11</span>
+          <span class="topic-text">Publicación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">12</span>
+          <span class="topic-text">Mantenimiento.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">03</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">🗄️</div>
+            <div class="module-name">Bases de datos</div>
+          </div>
+          <div class="module-count">12 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">¿Qué es una base de datos?</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Datos y registros.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">Tablas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Relaciones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Claves.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">SQL.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Consultas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Inserción y actualización.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Diseño de bases de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Integración con aplicaciones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">11</span>
+          <span class="topic-text">Seguridad.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">12</span>
+          <span class="topic-text">Respaldos.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">04</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">📱</div>
+            <div class="module-name">Aplicaciones</div>
+          </div>
+          <div class="module-count">12 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">Qué es una aplicación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Análisis de necesidades.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">Requerimientos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Diseño de interfaces.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Arquitectura.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">Programación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Bases de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">APIs.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Usuarios.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Seguridad.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">11</span>
+          <span class="topic-text">Pruebas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">12</span>
+          <span class="topic-text">Publicación.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">05</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">🤖</div>
+            <div class="module-name">Inteligencia Artificial</div>
+          </div>
+          <div class="module-count">10 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">IA aplicada.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Modelos de IA.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">APIs de IA.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Automatización con IA.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Procesamiento de información.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">Generación de contenido.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Integración con aplicaciones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Agentes y asistentes.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Evaluación de resultados.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Seguridad y privacidad.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">06</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">⚙️</div>
+            <div class="module-name">Automatización</div>
+          </div>
+          <div class="module-count">10 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">¿Qué es automatización?</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Identificación de procesos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">Flujos de trabajo.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Automatización de tareas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Integración de herramientas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">APIs.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Automatización de datos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Automatización con IA.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Errores y validaciones.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Monitoreo.</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <div class="module-index">
+            <span class="mnum">07</span>
+          </div>
+          <div class="module-title-wrap">
+            <div class="module-icon">🚀</div>
+            <div class="module-name">Proyectos tecnológicos</div>
+          </div>
+          <div class="module-count">10 temas</div>
+        </div>
+        <div class="topics-grid">
+        <div class="topic">
+          <span class="topic-num">1</span>
+          <span class="topic-text">Identificar problemas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">2</span>
+          <span class="topic-text">Definir objetivos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">3</span>
+          <span class="topic-text">Requerimientos.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">4</span>
+          <span class="topic-text">Diseño de solución.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">5</span>
+          <span class="topic-text">Planeación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">6</span>
+          <span class="topic-text">Desarrollo.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">7</span>
+          <span class="topic-text">Pruebas.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">8</span>
+          <span class="topic-text">Documentación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">9</span>
+          <span class="topic-text">Presentación.</span>
+        </div>
+        <div class="topic">
+          <span class="topic-num">10</span>
+          <span class="topic-text">Implementación.</span>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-bar">
+      <span>{ CWS } ACADEMY</span>
+      <span>EXPLORADORES DIGITALES · TEMARIO AVANZADO</span>
+    </div>
+
+  </div>
+</body>
+</html>
