@@ -214,6 +214,8 @@
   .price-table tr.deposit td.amount{ color:var(--amber); font-size:17px; }
   .price-table tr.balance td{ color:var(--white); font-weight:600; }
   .price-table tr.balance td.amount{ font-size:17px; }
+  .price-table tr.pagado td{ color:var(--green); font-weight:600; }
+  .price-table tr.pagado td.amount{ font-size:17px; }
   .price-note{
     margin-top:12px;
     font-family:'JetBrains Mono', monospace;
@@ -449,10 +451,14 @@
         <tr class="deposit">
           <td>Apartado de inscripción</td>
           <td class="amount">$200.00</td>
+        </tr>        
+        <tr class="pagado">
+          <td>Pagado -> 24-09-2026</td>
+          <td class="amount">$1,015.00</td>
         </tr>
         <tr class="balance">
           <td>Saldo restante</td>
-          <td class="amount">$1,015.5</td>
+          <td class="amount">$0.0</td>
         </tr>
       </table>
       <div class="price-note">
