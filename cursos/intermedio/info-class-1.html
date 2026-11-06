@@ -1,0 +1,460 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Intermedio · Clase 1: Word y Documentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#131313; --text:#f2f2f2; --muted:#a6a6a6;
+    --accent:#f59e0b; --accent-soft:rgba(245,158,11,.13); --border:#262626;
+    --warn:#f43f5e; --warn-soft:rgba(244,63,94,.10);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:inherit;}
+  html,body{height:100%;margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .deck{width:100%; height:100%; display:flex; align-items:center; justify-content:center;}
+  .slide{
+    display:none; width:min(1000px,94vw); max-height:80vh; overflow-y:auto;
+    padding:1.8rem clamp(1.1rem,4vw,2.8rem); border:1px solid var(--border); border-radius:18px;
+    background:var(--panel);
+  }
+  .slide.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .tag{color:var(--accent); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; margin:0 0 .5rem;}
+  h1{font-size:clamp(1.6rem,4vw,2.4rem); margin:.2rem 0 .6rem; line-height:1.15;}
+  h2{font-size:clamp(1.25rem,3vw,1.7rem); margin:0 0 .7rem; color:var(--accent);}
+  p{line-height:1.55; font-size:1rem; margin:.45rem 0;}
+  .muted{color:var(--muted);}
+  ul,ol{padding-left:1.2rem; margin:.4rem 0;}
+  li{margin:.3rem 0; line-height:1.5; font-size:.98rem;}
+  .cols{display:grid; grid-template-columns:1.1fr 1fr; gap:1.2rem; margin-top:.8rem;}
+  @media (max-width:700px){.cols{grid-template-columns:1fr;}}
+  .box{border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem;}
+  .box h3{margin:0 0 .4rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; font-family:'JetBrains Mono', monospace; color:var(--accent);}
+  .practice{border:1px dashed var(--accent); background:var(--accent-soft);}
+  .warn{border-color:var(--warn); background:var(--warn-soft);}
+  .warn h3{color:var(--warn);}
+  .ruta{display:inline-block; font-family:'JetBrains Mono', monospace; font-size:.82rem; border:1px solid var(--accent); color:var(--accent); border-radius:6px; padding:.1rem .5rem; margin:.15rem .1rem; background:var(--accent-soft);}
+  .key{font-family:'JetBrains Mono', monospace; border:1px solid var(--muted); color:var(--text); border-radius:5px; padding:.02rem .38rem; font-size:.82rem; background:#ffffff0d;}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-top:.7rem;}
+  @media (max-width:600px){.grid{grid-template-columns:1fr;}}
+  .bracket{color:var(--accent); font-family:'JetBrains Mono', monospace;}
+  .title-slide{text-align:center;}
+  .title-slide .bracket{font-size:2.5rem;}
+  table{border-collapse:collapse; font-family:'JetBrains Mono', monospace; font-size:.82rem; margin:.5rem 0; width:100%;}
+  th,td{border:1px solid var(--border); padding:.35rem .5rem; text-align:left;}
+  th{background:var(--accent-soft); color:var(--accent);}
+  nav{
+    position:fixed; bottom:calc(1.1rem + env(safe-area-inset-bottom,0px)); left:0; right:0;
+    display:flex; align-items:center; justify-content:center; gap:1rem;
+  }
+  button{
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:999px; padding:.55rem 1.1rem; font-family:inherit; cursor:pointer; font-size:.9rem;
+  }
+  button:hover{border-color:var(--accent); color:var(--accent);}
+  .dots{display:flex; gap:.35rem; flex-wrap:wrap; justify-content:center; max-width:220px;}
+  .dot{width:6px; height:6px; border-radius:50%; background:var(--border);}
+  .dot.on{background:var(--accent);}
+  .counter{position:fixed; top:calc(1rem + env(safe-area-inset-top,0px)); right:1.2rem; color:var(--muted); font-size:.8rem; font-family:'JetBrains Mono', monospace;}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){--bg:#f6f5f2; --panel:#ffffff; --text:#161616; --muted:#5b5b5b; --border:#e3e1dc; --accent:#b45309; --accent-soft:rgba(245,158,11,.12); --warn-soft:rgba(244,63,94,.07);}
+    .key{background:#0000000a; border-color:#999;}
+  }
+</style>
+</head>
+<body>
+<div class="counter"><span id="cur">1</span> / <span id="tot">14</span></div>
+<div class="deck">
+
+  <section class="slide active title-slide">
+    <div class="bracket">{ }</div>
+    <p class="tag mono">Exploradores Digitales · Nivel Intermedio · Aplicar</p>
+    <h1>Word y Documentos</h1>
+    <p class="muted">Clase 1 — De escribir textos a construir documentos estructurados y profesionales</p>
+    <p class="muted mono" style="font-size:.85rem">Aplica en Microsoft Word y Google Docs (las rutas de menú pueden variar según la versión)</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 1</p>
+    <h2>Creación y organización de documentos</h2>
+    <p>Un documento profesional empieza <b>antes de escribir</b>: se configura la página y se organiza el archivo para poder encontrarlo, versionarlo y retomarlo.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Configurar la página primero:</b> tamaño (Carta en México), orientación y márgenes.</li>
+          <li><b>Convención de nombres:</b> <span class="mono">2026-11_Informe-Ventas_v2.docx</span> (fecha, tema, versión).</li>
+          <li><b>Carpetas por proyecto,</b> no por tipo de archivo.</li>
+          <li><b>Versiones:</b> en vez de "final_final2", usa el historial de versiones.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <p><span class="ruta">Diseño → Márgenes</span> <span class="ruta">Tamaño</span> <span class="ruta">Orientación</span></p>
+        <ol>
+          <li>Crea un documento en blanco y define Carta, márgenes de 2.5 cm.</li>
+          <li>Guárdalo con nombre según la convención.</li>
+          <li>Ábrelo en <span class="ruta">Archivo → Información → Historial de versiones</span>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 2</p>
+    <h2>Formato de texto</h2>
+    <p>El formato comunica jerarquía y orden. Menos es más: <b>coherencia</b> antes que adornos.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Máximo 2 familias de letra:</b> una para títulos y otra para el cuerpo.</li>
+          <li><b>Tamaño legible:</b> cuerpo 11–12 pt; títulos escalonados.</li>
+          <li><b>Contraste:</b> texto oscuro sobre fondo claro; el color solo para enfatizar.</li>
+          <li><b>Pincel de formato:</b> copia el formato de un texto a otro.</li>
+          <li><b>Ver marcas de formato</b> <span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">8</span> para detectar espacios dobles y saltos sobrantes.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Pega un texto sin formato y actívale las marcas de formato.</li>
+          <li>Elimina espacios dobles con <span class="ruta">Reemplazar</span> (<span class="key">Ctrl</span>+<span class="key">H</span>): dos espacios → uno.</li>
+          <li>Da formato a un subtítulo y cópialo con el <span class="ruta">Pincel</span> a otros tres.</li>
+        </ol>
+        <p class="muted">Atajo útil: <span class="key">Shift</span>+<span class="key">F3</span> alterna mayúsculas/minúsculas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 3</p>
+    <h2>Párrafos y estilos</h2>
+    <p>La diferencia entre un aficionado y un usuario intermedio: <b>no formatea a mano cada línea, aplica estilos</b>. Un estilo es un conjunto guardado de formato (letra, tamaño, espaciado).</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Estilos de título</b> (Título 1, 2, 3) y <b>Normal</b> para el cuerpo.</li>
+          <li><b>Modificar el estilo</b> cambia todos los textos que lo usan, de una vez.</li>
+          <li><b>Interlineado</b> 1.15 a 1.5 y <b>espaciado</b> antes/después del párrafo.</li>
+          <li><b>Sangría y listas multinivel</b> para jerarquizar ideas.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Aplica <b>Título 1</b> a los títulos de sección y <b>Título 2</b> a los subtítulos.</li>
+          <li>Clic derecho en <b>Título 1</b> → <span class="ruta">Modificar</span>: cambia letra y color. Mira cómo se actualizan todos.</li>
+          <li>Define espaciado de 8 pt después del párrafo en <b>Normal</b>.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top:.8rem"><h3>Error común</h3><p style="margin:0">Usar <span class="key">Enter</span> varias veces para "bajar" o dejar espacio. Usa el espaciado del párrafo o un salto de página (<span class="key">Ctrl</span>+<span class="key">Enter</span>).</p></div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 4</p>
+    <h2>Tablas</h2>
+    <p>Las tablas sirven para <b>presentar datos comparables</b> (horarios, cotizaciones, listas), no para acomodar el diseño de la página.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Insertar</b> con el tamaño necesario y luego ajustar filas y columnas.</li>
+          <li><b>Combinar celdas</b> para encabezados que abarcan varias columnas.</li>
+          <li><b>Autoajuste</b> al contenido o a la ventana.</li>
+          <li><b>Estilos de tabla</b> y fila de encabezado diferenciada.</li>
+          <li><b>Repetir fila de encabezado</b> en cada página cuando la tabla es larga.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: cotización sencilla</h3>
+        <table>
+          <tr><th>Concepto</th><th>Cant.</th><th>Precio</th></tr>
+          <tr><td>Servicio A</td><td>2</td><td>500</td></tr>
+          <tr><td>Servicio B</td><td>1</td><td>800</td></tr>
+        </table>
+        <ol>
+          <li><span class="ruta">Insertar → Tabla</span> (3 columnas).</li>
+          <li>Aplica un estilo y alinea los números a la derecha.</li>
+          <li><span class="ruta">Propiedades de tabla → Fila → Repetir como encabezado</span>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 5</p>
+    <h2>Imágenes y elementos gráficos</h2>
+    <p>Un elemento gráfico debe <b>aportar información</b>, no solo decorar. Además, debe quedar bien integrado al texto.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Ajuste del texto:</b> "En línea con el texto" (estable) o "Cuadrado" (texto rodea la imagen).</li>
+          <li><b>Recortar y comprimir</b> para que el archivo no pese de más.</li>
+          <li><b>Formas, iconos y SmartArt</b> para esquemas y procesos sencillos.</li>
+          <li><b>Pie de figura</b> numerado automáticamente.</li>
+          <li><b>Texto alternativo</b> para accesibilidad.</li>
+          <li><b>Derechos de uso:</b> usa imágenes propias o con licencia que lo permita.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li><span class="ruta">Insertar → Imágenes</span>; recorta y ajusta a "En línea con el texto".</li>
+          <li>Centra y agrega un pie: <span class="ruta">Referencias → Insertar título</span>.</li>
+          <li>Agrega <b>texto alternativo</b> (clic derecho → Texto alternativo).</li>
+          <li>Crea un esquema de 3 pasos con <span class="ruta">SmartArt</span>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 6</p>
+    <h2>Encabezados y pies de página</h2>
+    <p>Son zonas que se repiten en todas las páginas: ideales para título del documento, autor, fecha, logo y <b>numeración</b>.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Doble clic</b> en el margen superior o inferior para editarlos.</li>
+          <li><b>Campos automáticos:</b> número de página, fecha, total de páginas.</li>
+          <li><b>Primera página diferente:</b> típico para la portada sin número.</li>
+          <li><b>Secciones:</b> permiten numeración o encabezados distintos en cada parte.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li><span class="ruta">Insertar → Número de página</span> → Final de página.</li>
+          <li>Activa <span class="ruta">Primera página diferente</span> para que la portada no lleve número.</li>
+          <li>En el encabezado coloca el nombre del documento y la fecha.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top:.8rem"><h3>Error común</h3><p style="margin:0">Escribir manualmente el número en cada página. Siempre usa el <b>campo</b> de número de página para que se actualice solo.</p></div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 7</p>
+    <h2>Documentos estructurados</h2>
+    <p>Un documento estructurado tiene <b>partes con función clara</b> y una jerarquía de títulos que permite navegarlo y generar índices automáticamente.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Estructura típica de un informe</h3>
+        <ol>
+          <li>Portada</li>
+          <li>Índice</li>
+          <li>Introducción (propósito y alcance)</li>
+          <li>Desarrollo (secciones con Título 1 y 2)</li>
+          <li>Conclusiones</li>
+          <li>Bibliografía o anexos</li>
+        </ol>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Redacta los títulos de tu informe con estilos <b>Título 1/2</b>.</li>
+          <li>Abre <span class="ruta">Vista → Panel de navegación</span> para ver y reordenar secciones.</li>
+          <li>Separa la portada con un <b>salto de sección</b> (<span class="ruta">Diseño → Saltos</span>).</li>
+        </ol>
+        <p class="muted"><span class="key">Ctrl</span>+<span class="key">Enter</span> inserta salto de página.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 8</p>
+    <h2>Índices y referencias</h2>
+    <p>Si tu documento usa estilos de título, Word genera el índice <b>solo</b>. Las referencias dan respaldo y orden al contenido.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Tabla de contenido automática</b> basada en los títulos.</li>
+          <li><b>Actualizar campos</b> (clic derecho → Actualizar) cuando cambies títulos o páginas.</li>
+          <li><b>Notas al pie</b> para aclaraciones y fuentes.</li>
+          <li><b>Citas y bibliografía</b> en un formato como APA.</li>
+          <li><b>Referencias cruzadas</b> ("ver Figura 2") que se actualizan solas.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li><span class="ruta">Referencias → Tabla de contenido</span> → elige una automática.</li>
+          <li>Agrega un título nuevo y actualiza con <span class="key">F9</span> o <span class="ruta">Actualizar tabla</span>.</li>
+          <li>Inserta una <b>nota al pie</b>: <span class="key">Ctrl</span>+<span class="key">Alt</span>+<span class="key">F</span>.</li>
+          <li>Agrega una fuente con <span class="ruta">Insertar cita</span> y genera la bibliografía.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 9</p>
+    <h2>Exportación a PDF</h2>
+    <p>El PDF conserva el diseño en cualquier dispositivo y evita que se desacomode el contenido. Úsalo para <b>entregar</b>, y conserva el .docx para <b>editar</b>.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Cuándo usar PDF:</b> entregas finales, cotizaciones, documentos firmables o para imprimir.</li>
+          <li><b>Cuándo conservar Word:</b> si otra persona debe editar o comentar.</li>
+          <li><b>Calidad:</b> estándar (impresión) o mínimo (pantalla/correo).</li>
+          <li><b>Marcadores:</b> los títulos pueden convertirse en navegación dentro del PDF.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <p>En Word: <span class="ruta">Archivo → Exportar → Crear PDF</span></p>
+        <p>En Google Docs: <span class="ruta">Archivo → Descargar → PDF</span></p>
+        <ol>
+          <li>Revisa el documento completo antes de exportar.</li>
+          <li>Exporta y abre el PDF: ¿se ven bien tablas, imágenes e índice?</li>
+          <li>Nómbralo con tu convención y guarda ambas versiones.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 10</p>
+    <h2>Compartir y colaborar</h2>
+    <p>Editar en equipo exige <b>reglas claras</b>: quién puede qué, y cómo se registran los cambios.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Permisos:</b> lector, comentarista o editor.</li>
+          <li><b>Comentarios</b> para dudas sin modificar el texto.</li>
+          <li><b>Control de cambios</b> (Word) o <b>modo Sugerencias</b> (Docs): muestra qué se cambió y quién.</li>
+          <li><b>Aceptar o rechazar</b> cada cambio al revisar.</li>
+          <li><b>Historial de versiones</b> para recuperar una versión anterior.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Guarda el archivo en la nube y pulsa <span class="ruta">Compartir</span>; asigna permiso de <b>comentarista</b>.</li>
+          <li>Activa <span class="ruta">Revisar → Control de cambios</span> (<span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">E</span>) y edita un párrafo.</li>
+          <li>Agrega un comentario y luego acepta o rechaza los cambios.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 11</p>
+    <h2>Plantillas</h2>
+    <p>Una plantilla es un documento modelo con estilos, diseño y estructura ya definidos. Ahorra tiempo y asegura <b>consistencia</b> entre documentos.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Plantillas existentes:</b> <span class="ruta">Archivo → Nuevo</span> (informes, cartas, currículums).</li>
+          <li><b>Plantilla propia:</b> incluye estilos, encabezado, pie, logotipo y secciones.</li>
+          <li><b>Formato .dotx</b> (Word): cada vez que lo abres crea un documento nuevo sin tocar el modelo.</li>
+          <li><b>Textos guía</b> en lugar de datos reales: "[Nombre del cliente]".</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Diseña una carta con encabezado, estilos y textos guía.</li>
+          <li><span class="ruta">Guardar como → Plantilla de Word (.dotx)</span>.</li>
+          <li>Ábrela desde <span class="ruta">Nuevo → Personal</span> y genera una carta nueva.</li>
+        </ol>
+        <p class="muted">En Google Docs: <span class="ruta">Archivo → Hacer una copia</span> a partir de tu modelo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 12</p>
+    <h2>Documentos profesionales</h2>
+    <p>Un documento profesional se reconoce por su <b>consistencia, claridad y cuidado</b>. Antes de entregar, revisa con esta lista.</p>
+    <div class="grid">
+      <div class="box"><h3>Contenido</h3><ul><li>Propósito claro desde el inicio.</li><li>Ortografía revisada (<span class="key">F7</span>).</li><li>Datos y fechas verificados.</li></ul></div>
+      <div class="box"><h3>Diseño</h3><ul><li>Estilos aplicados de forma uniforme.</li><li>Alineación, márgenes y espacios consistentes.</li><li>Máximo 2 tipos de letra.</li></ul></div>
+      <div class="box"><h3>Estructura</h3><ul><li>Índice actualizado.</li><li>Números de página correctos.</li><li>Tablas e imágenes con pie.</li></ul></div>
+      <div class="box"><h3>Entrega</h3><ul><li><span class="ruta">Archivo → Información → Inspeccionar documento</span>: elimina datos personales ocultos.</li><li><span class="ruta">Revisar → Accesibilidad</span>.</li><li>Exportar a PDF y nombrar bien el archivo.</li></ul></div>
+    </div>
+    <p class="muted" style="margin-top:.8rem">Ejemplos de documentos profesionales: carta formal, informe, propuesta, cotización, currículum.</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Práctica integradora</p>
+    <h2>Mini-proyecto de la clase</h2>
+    <p>Aplica todo lo aprendido en un solo documento: <b>un informe breve de 3 a 4 páginas</b> sobre el tema que elijas (un negocio, un viaje, un proyecto escolar).</p>
+    <div class="box practice">
+      <h3>Debe incluir</h3>
+      <ol>
+        <li>Página configurada (Carta, márgenes) y archivo con nombre según la convención.</li>
+        <li>Portada sin número de página y secciones con <b>Título 1 y 2</b>.</li>
+        <li>Índice automático actualizado.</li>
+        <li>Una tabla con encabezado y una imagen con pie de figura.</li>
+        <li>Encabezado con el nombre del documento y pie con número de página.</li>
+        <li>Revisión ortográfica y exportación a <b>PDF</b>.</li>
+      </ol>
+    </div>
+    <p class="muted" style="margin-top:.8rem">Guárdalo como plantilla si piensas reutilizar el diseño.</p>
+  </section>
+
+</div>
+
+<nav>
+  <button id="prev">← Anterior</button>
+  <div class="dots" id="dots"></div>
+  <button id="next">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const curEl = document.getElementById('cur');
+  document.getElementById('tot').textContent = slides.length;
+  let i = 0;
+  slides.forEach((_, idx) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (idx === 0 ? ' on' : '');
+    dotsEl.appendChild(d);
+  });
+  function show(n){
+    slides[i].classList.remove('active');
+    dotsEl.children[i].classList.remove('on');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('active');
+    dotsEl.children[i].classList.add('on');
+    curEl.textContent = i + 1;
+    slides[i].scrollTop = 0;
+  }
+  document.getElementById('next').onclick = () => show(i+1);
+  document.getElementById('prev').onclick = () => show(i-1);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') show(i+1);
+    if (e.key === 'ArrowLeft') show(i-1);
+  });
+</script>
+</body>
+</html>
+
+</body></html>
