@@ -1,0 +1,507 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Intermedio · Clase 2: Excel y Análisis de Datos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#131313; --text:#f2f2f2; --muted:#a6a6a6;
+    --accent:#22c55e; --accent-soft:rgba(34,197,94,.13); --border:#262626;
+    --warn:#f43f5e; --warn-soft:rgba(244,63,94,.10);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:inherit;}
+  html,body{height:100%;margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .deck{width:100%; height:100%; display:flex; align-items:center; justify-content:center;}
+  .slide{
+    display:none; width:min(1000px,94vw); max-height:80vh; overflow-y:auto;
+    padding:1.8rem clamp(1.1rem,4vw,2.8rem); border:1px solid var(--border); border-radius:18px;
+    background:var(--panel);
+  }
+  .slide.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .tag{color:var(--accent); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; margin:0 0 .5rem;}
+  h1{font-size:clamp(1.6rem,4vw,2.4rem); margin:.2rem 0 .6rem; line-height:1.15;}
+  h2{font-size:clamp(1.25rem,3vw,1.7rem); margin:0 0 .7rem; color:var(--accent);}
+  p{line-height:1.55; font-size:1rem; margin:.45rem 0;}
+  .muted{color:var(--muted);}
+  ul,ol{padding-left:1.2rem; margin:.4rem 0;}
+  li{margin:.3rem 0; line-height:1.5; font-size:.98rem;}
+  .cols{display:grid; grid-template-columns:1.1fr 1fr; gap:1.2rem; margin-top:.8rem;}
+  @media (max-width:700px){.cols{grid-template-columns:1fr;}}
+  .box{border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem;}
+  .box h3{margin:0 0 .4rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; font-family:'JetBrains Mono', monospace; color:var(--accent);}
+  .practice{border:1px dashed var(--accent); background:var(--accent-soft);}
+  .warn{border-color:var(--warn); background:var(--warn-soft);}
+  .warn h3{color:var(--warn);}
+  .ruta{display:inline-block; font-family:'JetBrains Mono', monospace; font-size:.82rem; border:1px solid var(--accent); color:var(--accent); border-radius:6px; padding:.1rem .5rem; margin:.15rem .1rem; background:var(--accent-soft);}
+  .key{font-family:'JetBrains Mono', monospace; border:1px solid var(--muted); color:var(--text); border-radius:5px; padding:.02rem .38rem; font-size:.82rem; background:#ffffff0d;}
+  .fx{font-family:'JetBrains Mono', monospace; font-size:.85rem; color:var(--accent); background:var(--accent-soft); border-radius:5px; padding:.05rem .4rem; white-space:nowrap;}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-top:.7rem;}
+  @media (max-width:600px){.grid{grid-template-columns:1fr;}}
+  .bracket{color:var(--accent); font-family:'JetBrains Mono', monospace;}
+  .title-slide{text-align:center;}
+  .title-slide .bracket{font-size:2.5rem;}
+  table{border-collapse:collapse; font-family:'JetBrains Mono', monospace; font-size:.8rem; margin:.5rem 0; width:100%;}
+  th,td{border:1px solid var(--border); padding:.3rem .5rem; text-align:left;}
+  th{background:var(--accent-soft); color:var(--accent);}
+  nav{
+    position:fixed; bottom:calc(1.1rem + env(safe-area-inset-bottom,0px)); left:0; right:0;
+    display:flex; align-items:center; justify-content:center; gap:1rem;
+  }
+  button{
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:999px; padding:.55rem 1.1rem; font-family:inherit; cursor:pointer; font-size:.9rem;
+  }
+  button:hover{border-color:var(--accent); color:var(--accent);}
+  .dots{display:flex; gap:.35rem; flex-wrap:wrap; justify-content:center; max-width:220px;}
+  .dot{width:6px; height:6px; border-radius:50%; background:var(--border);}
+  .dot.on{background:var(--accent);}
+  .counter{position:fixed; top:calc(1rem + env(safe-area-inset-top,0px)); right:1.2rem; color:var(--muted); font-size:.8rem; font-family:'JetBrains Mono', monospace;}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){--bg:#f6f5f2; --panel:#ffffff; --text:#161616; --muted:#5b5b5b; --border:#e3e1dc; --accent:#15803d; --accent-soft:rgba(34,197,94,.12); --warn-soft:rgba(244,63,94,.07);}
+    .key{background:#0000000a; border-color:#999;}
+  }
+</style>
+</head>
+<body>
+<div class="counter"><span id="cur">1</span> / <span id="tot">14</span></div>
+<div class="deck">
+
+  <section class="slide active title-slide">
+    <div class="bracket">{ }</div>
+    <p class="tag mono">Exploradores Digitales · Nivel Intermedio · Aplicar</p>
+    <h1>Excel y Análisis de Datos</h1>
+    <p class="muted">Clase 2 — De capturar datos a organizarlos, calcularlos e interpretarlos</p>
+    <p class="muted mono" style="font-size:.85rem">Aplica en Microsoft Excel y Google Sheets · Si tu Excel usa punto y coma (;) en las fórmulas, cámbialo por la coma</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 1</p>
+    <h2>Interfaz de Excel</h2>
+    <p>Moverse con soltura por la interfaz ahorra mucho tiempo. Un <b>libro</b> es el archivo y contiene varias <b>hojas</b>.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Cinta de opciones:</b> fichas Inicio, Insertar, Fórmulas, Datos, Vista.</li>
+          <li><b>Cuadro de nombres:</b> muestra la celda activa (o el rango) y permite ir a una celda.</li>
+          <li><b>Barra de fórmulas:</b> muestra el contenido real de la celda.</li>
+          <li><b>Barra de estado:</b> al seleccionar números muestra suma, promedio y conteo al instante.</li>
+          <li><b>Inmovilizar paneles:</b> deja fijos los encabezados al desplazarte.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Escribe 10 números y selecciónalos: lee la suma y el promedio en la barra de estado.</li>
+          <li><span class="ruta">Vista → Inmovilizar paneles → Inmovilizar fila superior</span>.</li>
+          <li>Renombra una hoja (doble clic en la pestaña) y dale un color.</li>
+        </ol>
+        <p class="muted">Atajos: <span class="key">Ctrl</span>+<span class="key">Flecha</span> salta al borde de los datos · <span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">Flecha</span> selecciona hasta el borde · <span class="key">F2</span> edita la celda.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 2</p>
+    <h2>Filas, columnas y celdas</h2>
+    <p>Cada celda tiene una dirección (<span class="fx">B3</span>). Un <b>rango</b> es un grupo de celdas (<span class="fx">B2:B10</span>). Entender las <b>referencias</b> es la base de todo lo demás.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Referencia relativa</b> (<span class="fx">A1</span>): cambia al copiar la fórmula.</li>
+          <li><b>Referencia absoluta</b> (<span class="fx">$A$1</span>): se queda fija. Se alterna con <span class="key">F4</span>.</li>
+          <li><b>Controlador de relleno:</b> arrastra la esquina de la celda para copiar fórmulas o series.</li>
+          <li><b>Ancho y alto:</b> doble clic en el borde del encabezado para autoajustar.</li>
+          <li><b>Insertar/eliminar</b> filas y columnas; ocultar las que no se necesitan mostrar.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: IVA en una celda fija</h3>
+        <table>
+          <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+          <tr><td>1</td><td>IVA</td><td>16%</td><td></td></tr>
+          <tr><td>2</td><td>Producto</td><td>Precio</td><td>Con IVA</td></tr>
+          <tr><td>3</td><td>Cuaderno</td><td>100</td><td>=B3*(1+$B$1)</td></tr>
+        </table>
+        <ol>
+          <li>Escribe la fórmula en <span class="fx">C3</span>.</li>
+          <li>Arrástrala hacia abajo: <span class="fx">$B$1</span> no cambia, <span class="fx">B3</span> sí.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top:.8rem"><h3>Error común</h3><p style="margin:0">Combinar celdas en una tabla de datos. Impide ordenar y filtrar. Combina solo en títulos.</p></div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 3</p>
+    <h2>Formato de datos</h2>
+    <p>Excel trata distinto un número, un texto y una fecha. El <b>formato cambia cómo se ve</b> un dato, no su valor real.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Tipos:</b> General, Número, Moneda, Porcentaje, Fecha, Texto.</li>
+          <li><b>Las fechas son números</b> internamente: por eso se pueden restar o sumar días.</li>
+          <li><b>Alineación como pista:</b> los números van a la derecha, el texto a la izquierda.</li>
+          <li><b>Decimales</b> visibles vs. valor real: el formato no redondea el dato guardado.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Escribe 1500 y aplica <span class="ruta">Moneda</span> (<span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">4</span>).</li>
+          <li>Escribe 0.16 y aplícale <span class="ruta">Porcentaje</span> (<span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">5</span>).</li>
+          <li>Escribe dos fechas y réstalas: obtienes los días transcurridos.</li>
+          <li>Si un número se alinea a la izquierda: es texto. Conviértelo con <span class="ruta">Datos → Texto en columnas → Finalizar</span>.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top:.8rem"><h3>Error común</h3><p style="margin:0">Escribir "$1,500 pesos" a mano: Excel lo toma como texto y no suma. Escribe solo 1500 y aplica el formato.</p></div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 4</p>
+    <h2>Fórmulas</h2>
+    <p>Una <b>fórmula</b> es una instrucción que calcula a partir de otras celdas. Siempre empieza con <span class="fx">=</span> y se actualiza sola cuando cambian los datos.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Operadores:</b> <span class="fx">+</span> <span class="fx">-</span> <span class="fx">*</span> <span class="fx">/</span> <span class="fx">^</span></li>
+          <li><b>Orden de operaciones:</b> primero paréntesis, luego potencias, luego × y ÷, al final + y −.</li>
+          <li><b>Usa referencias, no números escritos:</b> <span class="fx">=B2*C2</span>, no <span class="fx">=10*25</span>.</li>
+          <li><b>Mostrar fórmulas:</b> <span class="key">Ctrl</span>+<span class="key">`</span>.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: total por renglón</h3>
+        <table>
+          <tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Total</th></tr>
+          <tr><td>Cuaderno</td><td>10</td><td>25</td><td>=B2*C2</td></tr>
+          <tr><td>Pluma</td><td>30</td><td>8</td><td>=B3*C3</td></tr>
+        </table>
+        <p class="muted">Cambia una cantidad y observa cómo se recalcula el total.</p>
+      </div>
+    </div>
+    <div class="box" style="margin-top:.8rem">
+      <h3>Errores frecuentes y qué significan</h3>
+      <ul>
+        <li><span class="fx">#DIV/0!</span> división entre cero o celda vacía.</li>
+        <li><span class="fx">#¿NOMBRE?</span> función mal escrita.</li>
+        <li><span class="fx">#VALOR!</span> se intentó operar con texto.</li>
+        <li><span class="fx">#REF!</span> se borró una celda a la que apuntaba la fórmula.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 5</p>
+    <h2>Funciones básicas</h2>
+    <p>Una <b>función</b> es una fórmula ya preparada. Se escribe con su nombre y entre paréntesis lo que debe analizar.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Las más usadas</h3>
+        <ul>
+          <li><span class="fx">=SUMA(B2:B20)</span> suma un rango.</li>
+          <li><span class="fx">=PROMEDIO(B2:B20)</span> promedio.</li>
+          <li><span class="fx">=MAX(B2:B20)</span> / <span class="fx">=MIN(B2:B20)</span> mayor y menor.</li>
+          <li><span class="fx">=CONTAR(B2:B20)</span> cuenta celdas con números; <span class="fx">=CONTARA</span> cuenta cualquier dato.</li>
+          <li><span class="fx">=REDONDEAR(B2,2)</span> redondea a 2 decimales.</li>
+          <li><span class="fx">=HOY()</span> fecha actual.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Captura 8 ventas en la columna B.</li>
+          <li>Debajo, calcula suma, promedio, máximo y mínimo.</li>
+          <li>Prueba la <b>Autosuma</b>: <span class="key">Alt</span>+<span class="key">=</span>.</li>
+          <li>Si dudas de una función, usa <span class="ruta">Fórmulas → Insertar función</span>: explica cada argumento.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="muted">Un <b>argumento</b> es cada dato que la función recibe, separado por comas: <span class="fx">REDONDEAR(número, decimales)</span>.</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 6</p>
+    <h2>Operaciones matemáticas</h2>
+    <p>Los cálculos comerciales más comunes se resuelven con operaciones sencillas combinadas con referencias.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Fórmulas de uso diario</h3>
+        <ul>
+          <li><b>Porcentaje de un total:</b> <span class="fx">=B2/$B$10</span> (formato %).</li>
+          <li><b>Descuento:</b> <span class="fx">=B2*(1-C2)</span> con C2 = 15%.</li>
+          <li><b>Aumento / IVA:</b> <span class="fx">=B2*(1+16%)</span>.</li>
+          <li><b>Variación %:</b> <span class="fx">=(Nuevo-Anterior)/Anterior</span>.</li>
+          <li><b>Potencia:</b> <span class="fx">=B2^2</span>.</li>
+          <li><b>Producto de dos rangos:</b> <span class="fx">=SUMAPRODUCTO(B2:B5,C2:C5)</span>.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: variación de ventas</h3>
+        <table>
+          <tr><th>Mes</th><th>Ventas</th><th>Variación</th></tr>
+          <tr><td>Enero</td><td>10000</td><td></td></tr>
+          <tr><td>Febrero</td><td>12000</td><td>=(B3-B2)/B2</td></tr>
+        </table>
+        <p>Aplica formato <b>Porcentaje</b>: el resultado es <b>20%</b>. Arrastra la fórmula para los meses siguientes.</p>
+      </div>
+    </div>
+    <p class="muted"><b>SUMAPRODUCTO</b> multiplica elemento por elemento y suma: perfecto para calcular el total de una venta sin columna auxiliar.</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 7</p>
+    <h2>Ordenar y filtrar</h2>
+    <p>Permiten encontrar y comparar información sin modificar los datos. Funcionan bien solo si la base está <b>ordenada y completa</b>.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Conceptos clave</h3>
+        <ul>
+          <li><b>Ordenar:</b> de A a Z, de menor a mayor, por fecha o por color.</li>
+          <li><b>Ordenar por varios niveles:</b> primero Región, luego Ventas de mayor a menor.</li>
+          <li><b>Filtrar:</b> muestra solo las filas que cumplen una condición (las demás se ocultan, no se borran).</li>
+          <li><b>Requisitos:</b> encabezados en una sola fila, sin filas vacías ni celdas combinadas.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Haz clic dentro de tu base y activa el filtro: <span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">L</span>.</li>
+          <li>Filtra una región y, con la barra de estado, lee la suma de lo visible.</li>
+          <li><span class="ruta">Datos → Ordenar</span> → agrega un segundo nivel.</li>
+          <li>Quita los filtros con <span class="ruta">Borrar</span>.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box warn" style="margin-top:.8rem"><h3>Error común</h3><p style="margin:0">Ordenar solo una columna: los datos de esa columna se mezclan con los de otras filas. Ordena siempre toda la tabla.</p></div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 8</p>
+    <h2>Tablas</h2>
+    <p>Convertir un rango en una <b>Tabla</b> de Excel (<span class="key">Ctrl</span>+<span class="key">T</span>) le da inteligencia: crece sola, conserva el formato y las fórmulas se vuelven más legibles.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Ventajas</h3>
+        <ul>
+          <li><b>Se expande automáticamente</b> al agregar filas.</li>
+          <li><b>Filtros y ordenamiento</b> integrados en los encabezados.</li>
+          <li><b>Fila de totales</b> con un clic.</li>
+          <li><b>Referencias estructuradas:</b> <span class="fx">=[@Cantidad]*[@Precio]</span>, con nombres en lugar de celdas.</li>
+          <li><b>Estilos</b> con filas alternadas para leer mejor.</li>
+          <li><b>Segmentación de datos:</b> botones para filtrar visualmente.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Selecciona tu base y presiona <span class="key">Ctrl</span>+<span class="key">T</span> (marca "La tabla tiene encabezados").</li>
+          <li>En <span class="ruta">Diseño de tabla</span> ponle un nombre, por ejemplo <span class="fx">Ventas</span>.</li>
+          <li>Agrega una columna <b>Total</b> con <span class="fx">=[@Cantidad]*[@Precio]</span>.</li>
+          <li>Activa <span class="ruta">Fila de totales</span> y escribe un renglón nuevo: la tabla crece sola.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 9</p>
+    <h2>Gráficos</h2>
+    <p>Un gráfico debe <b>responder una pregunta</b> a simple vista. Elegir bien el tipo es la mitad del trabajo.</p>
+    <div class="grid">
+      <div class="box"><h3>Columnas / barras</h3><p style="margin:0">Comparar categorías (ventas por vendedor). Barras si los nombres son largos.</p></div>
+      <div class="box"><h3>Líneas</h3><p style="margin:0">Ver la tendencia en el tiempo (ventas por mes).</p></div>
+      <div class="box"><h3>Circular</h3><p style="margin:0">Partes de un todo, con pocas categorías (máximo 5).</p></div>
+      <div class="box"><h3>Dispersión</h3><p style="margin:0">Relación entre dos variables numéricas.</p></div>
+    </div>
+    <div class="cols">
+      <div class="box">
+        <h3>Buenas prácticas</h3>
+        <ul>
+          <li>Título que diga algo: "Las ventas crecieron 20% en febrero".</li>
+          <li>Evita efectos 3D y demasiados colores.</li>
+          <li>Rotula los ejes y usa etiquetas de datos si ayudan.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica</h3>
+        <ol>
+          <li>Selecciona meses y ventas.</li>
+          <li><span class="ruta">Insertar → Gráficos recomendados</span> (o <span class="key">Alt</span>+<span class="key">F1</span>).</li>
+          <li>Cambia el título, quita la leyenda si sobra y agrega etiquetas.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 10</p>
+    <h2>Funciones condicionales</h2>
+    <p>Permiten que Excel <b>decida</b> según una condición: marcar, clasificar o sumar solo lo que cumple un criterio.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Funciones clave</h3>
+        <ul>
+          <li><span class="fx">=SI(B2&gt;=70,"Aprobado","Reprobado")</span></li>
+          <li><span class="fx">=SI(Y(B2&gt;=70,C2&gt;=80),"Cumple","No cumple")</span> <br><span class="muted">Y exige todas; O exige al menos una.</span></li>
+          <li><span class="fx">=SUMAR.SI(A2:A20,"Norte",C2:C20)</span> suma las ventas de la región Norte.</li>
+          <li><span class="fx">=CONTAR.SI(B2:B20,"&gt;=70")</span> cuenta cuántos pasan.</li>
+          <li><span class="fx">=PROMEDIO.SI(A2:A20,"Norte",C2:C20)</span></li>
+          <li><span class="fx">=SI.ERROR(B2/C2,0)</span> evita mostrar errores.</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: calificaciones</h3>
+        <table>
+          <tr><th>Alumno</th><th>Calif.</th><th>Estado</th></tr>
+          <tr><td>Ana</td><td>85</td><td>=SI(B2&gt;=70,"Aprobado","Reprobado")</td></tr>
+          <tr><td>Luis</td><td>60</td><td>…</td></tr>
+        </table>
+        <ol>
+          <li>Arrastra la fórmula a todos los alumnos.</li>
+          <li>Cuenta aprobados con <span class="fx">=CONTAR.SI(C2:C10,"Aprobado")</span>.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="muted">Para varios criterios a la vez existe <span class="fx">SUMAR.SI.CONJUNTO</span> (por ejemplo, región Norte <b>y</b> mes de enero).</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 11</p>
+    <h2>Organización de información</h2>
+    <p>Los análisis fallan casi siempre por <b>datos mal organizados</b>, no por fórmulas. Una buena base se reconoce por su estructura.</p>
+    <div class="cols">
+      <div class="box">
+        <h3>Reglas de una base limpia</h3>
+        <ul>
+          <li><b>Un dato por celda</b> (no "Juan Pérez – 5512345678" junto).</li>
+          <li><b>Una fila = un registro; una columna = un campo.</b></li>
+          <li>Encabezados claros, en una sola fila y sin repetir.</li>
+          <li>Sin filas ni columnas vacías en medio.</li>
+          <li><b>Separa en hojas:</b> datos, cálculos y reporte.</li>
+          <li>Formato coherente en cada columna (fechas como fechas).</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: control de calidad</h3>
+        <ol>
+          <li><span class="ruta">Datos → Validación de datos → Lista</span>: crea un menú desplegable (por ejemplo, regiones Norte, Centro, Sur).</li>
+          <li><span class="ruta">Datos → Quitar duplicados</span> en una lista con repetidos.</li>
+          <li><span class="ruta">Inicio → Formato condicional → Resaltar reglas</span>: resalta ventas mayores a 10,000.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="muted">Validar al capturar evita errores: es más fácil prevenir que corregir.</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Tema 12</p>
+    <h2>Introducción al análisis de datos</h2>
+    <p>Analizar es <b>convertir datos en decisiones</b>. No se trata solo de calcular, sino de preguntarse qué significan los resultados.</p>
+    <div class="grid">
+      <div class="box"><h3>1 · Pregunta</h3><p style="margin:0">¿Qué quiero saber? (¿Quién vende más? ¿En qué mes bajamos?)</p></div>
+      <div class="box"><h3>2 · Datos limpios</h3><p style="margin:0">Estructurados, sin duplicados y con formato correcto.</p></div>
+      <div class="box"><h3>3 · Resumir</h3><p style="margin:0">Totales, promedios, conteos y tablas dinámicas.</p></div>
+      <div class="box"><h3>4 · Visualizar y concluir</h3><p style="margin:0">Gráfico claro y una conclusión redactada.</p></div>
+    </div>
+    <div class="cols">
+      <div class="box">
+        <h3>Herramientas de resumen</h3>
+        <ul>
+          <li><b>Tabla dinámica:</b> resume miles de filas arrastrando campos (ventas por vendedor, por mes, por región).</li>
+          <li><b>Medidas básicas:</b> promedio, <span class="fx">MEDIANA</span>, máximo y mínimo.</li>
+          <li><b>Verificar:</b> ¿el total de la tabla dinámica coincide con el total de los datos?</li>
+        </ul>
+      </div>
+      <div class="box practice">
+        <h3>Práctica: tabla dinámica</h3>
+        <ol>
+          <li>Haz clic en tu tabla de ventas → <span class="ruta">Insertar → Tabla dinámica</span>.</li>
+          <li>Arrastra <b>Vendedor</b> a Filas y <b>Total</b> a Valores (Suma).</li>
+          <li>Agrega <b>Mes</b> a Columnas para comparar.</li>
+          <li>Con la tabla dinámica seleccionada, inserta un gráfico dinámico.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="muted">Una conclusión útil dice algo concreto: "Norte generó el 45% de las ventas y Sur bajó 10% en marzo".</p>
+  </section>
+
+  <section class="slide">
+    <p class="tag mono">Práctica integradora</p>
+    <h2>Mini-proyecto: control de ventas mensual</h2>
+    <p>Construye un libro de Excel que registre ventas y las analice. Usa datos ficticios (mínimo 20 registros).</p>
+    <div class="box practice">
+      <h3>Debe incluir</h3>
+      <ol>
+        <li><b>Hoja Datos:</b> Fecha, Vendedor, Región, Producto, Cantidad y Precio, convertida en <b>Tabla</b> con nombre.</li>
+        <li>Columna <b>Total</b> con referencias estructuradas y <b>validación</b> (lista desplegable) en Región.</li>
+        <li>Hoja <b>Resumen</b> con <span class="fx">SUMAR.SI</span>, <span class="fx">CONTAR.SI</span> y <span class="fx">PROMEDIO.SI</span> por región.</li>
+        <li>Una columna con <span class="fx">SI</span> que marque "Meta lograda" si el total supera un valor fijo (referencia absoluta).</li>
+        <li><b>Formato condicional</b> para resaltar las ventas más altas.</li>
+        <li>Una <b>tabla dinámica</b> y un <b>gráfico</b> con título que explique la conclusión.</li>
+        <li>Libro guardado con nombre claro y hojas renombradas.</li>
+      </ol>
+    </div>
+    <p class="muted" style="margin-top:.8rem">Al terminar, redacta una conclusión de dos líneas con lo que muestran tus datos.</p>
+  </section>
+
+</div>
+
+<nav>
+  <button id="prev">← Anterior</button>
+  <div class="dots" id="dots"></div>
+  <button id="next">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const curEl = document.getElementById('cur');
+  document.getElementById('tot').textContent = slides.length;
+  let i = 0;
+  slides.forEach((_, idx) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (idx === 0 ? ' on' : '');
+    dotsEl.appendChild(d);
+  });
+  function show(n){
+    slides[i].classList.remove('active');
+    dotsEl.children[i].classList.remove('on');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('active');
+    dotsEl.children[i].classList.add('on');
+    curEl.textContent = i + 1;
+    slides[i].scrollTop = 0;
+  }
+  document.getElementById('next').onclick = () => show(i+1);
+  document.getElementById('prev').onclick = () => show(i-1);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') show(i+1);
+    if (e.key === 'ArrowLeft') show(i-1);
+  });
+</script>
+</body>
+</html>
+
+</body></html>
